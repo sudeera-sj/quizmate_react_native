@@ -75,7 +75,9 @@ export default function AboutApp() {
             <Pressable
               android_ripple={{color: 'lightgrey', borderless: false}}
               onPress={() =>
-                Linking.openURL('https://github.com/SudeeraSJ/quiz-mate')
+                Linking.openURL(
+                  'https://github.com/SudeeraSJ/quizmate_react_native',
+                )
               }
               style={styles.linkContainer}>
               <Icon name={'github'} color={'black'} style={styles.linkIcon} />
