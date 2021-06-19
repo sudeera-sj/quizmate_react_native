@@ -1,13 +1,15 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import {decode} from 'html-entities';
+import {firstValueFrom, from, of} from 'rxjs';
+import {map, mergeMap, toArray} from 'rxjs/operators';
 import {AppState} from '../../store';
-import apiController from '../index';
 import {Question} from '../../types/model-types';
 import {
   QuestionDifficulty,
   QuestionType,
   TaskProgress,
 } from '../../types/util-types';
-import {decode} from 'html-entities';
+import apiController from '../index';
 
 type TriviaEntry = {
   category: string;
@@ -30,29 +32,29 @@ export const fetchQuiz = createAsyncThunk(
   async (_arg, {getState}) => {
     const quizState = (getState() as AppState).quiz;
 
-    let url = `https://opentdb.com/api.php?amount=${quizState.count}`;
-
-    const category = quizState.category.id;
-    if (category > 0) {
-      url += `&category=${category}`;
-    }
-
-    const difficulty = quizState.difficulty;
-    if (difficulty !== QuestionDifficulty.ANY) {
-      url += `&difficulty=${difficulty.valueOf()}`;
-    }
-
-    const type = quizState.type;
-    if (type !== QuestionType.ANY) {
-      url += `&type=${type.valueOf()}`;
-    }
-
-    return await apiController
-      .get(url)
-      .then(value => value.data as Trivia)
-      .then(value => value.results)
-      .then(value => {
-        return value.map(triviaEntry => {
+    const questions = await firstValueFrom(
+      of(`api.php?amount=${quizState.count}`).pipe(
+        map(value => {
+          const category = quizState.category.id;
+          return category > 0 ? `${value}&category=${category}` : value;
+        }),
+        map(value => {
+          const difficulty = quizState.difficulty;
+          return difficulty !== QuestionDifficulty.ANY
+            ? `${value}&difficulty=${difficulty.valueOf()}`
+            : value;
+        }),
+        map(value => {
+          const type = quizState.type;
+          return type !== QuestionType.ANY
+            ? `${value}&type=${type.valueOf()}`
+            : value;
+        }),
+        mergeMap(value => from(apiController.get<string>(value))),
+        map(value => value.data as unknown as Trivia),
+        map(value => value.results),
+        mergeMap(value => from(value)),
+        map(triviaEntry => {
           triviaEntry.incorrect_answers.push(triviaEntry.correct_answer);
 
           /**
@@ -72,8 +74,12 @@ export const fetchQuiz = createAsyncThunk(
           };
 
           return question;
-        });
-      });
+        }),
+        toArray(),
+      ),
+    );
+
+    return questions;
   },
   {
     condition: (_arg, {getState}) => {

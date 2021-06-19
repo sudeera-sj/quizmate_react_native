@@ -1,9 +1,10 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import {firstValueFrom, from} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {AppState} from '../../store';
+import {CategoryState} from '../../store/slices/category-slice';
 import {Category} from '../../types/model-types';
 import {TaskProgress} from '../../types/util-types';
-import {CategoryState} from '../../store/slices/category-slice';
-import {AxiosResponse} from 'axios';
 import apiController from '../index';
 
 type TriviaCategories = {
@@ -24,27 +25,27 @@ export const defaultCategory: Category = {
 export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
   async _arg => {
-    const categories: Category[] = await apiController
-      .get('api_category.php')
-      .then((value: AxiosResponse<string>) => {
-        return value.data as unknown as TriviaCategories;
-      })
-      .then(value => value.trivia_categories)
-      .then(value => {
-        value.push(defaultCategory);
+    const categories = await firstValueFrom(
+      from(apiController.get<string>('api_category.php')).pipe(
+        map(value => value.data as unknown as TriviaCategories),
+        map(value => value.trivia_categories),
+        map(value => {
+          value.push(defaultCategory);
 
-        value.sort((a, b) => {
-          if (a.id < b.id) {
-            return -1;
-          }
-          if (a.id > b.id) {
-            return 1;
-          }
-          return 0;
-        });
+          value.sort((a, b) => {
+            if (a.id < b.id) {
+              return -1;
+            }
+            if (a.id > b.id) {
+              return 1;
+            }
+            return 0;
+          });
 
-        return value;
-      });
+          return value;
+        }),
+      ),
+    );
 
     return categories || [];
   },
