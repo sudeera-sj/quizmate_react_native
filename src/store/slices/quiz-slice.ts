@@ -1,12 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {
-  QuestionDifficulty,
-  QuestionType,
-  TaskProgress,
-} from '../../types/util-types';
+import {QuestionDifficulty, QuestionType, TaskProgress} from '../../types/util-types';
 import {Answer, Category, Question} from '../../types/model-types';
 import {fetchQuiz} from '../../api/repos/quiz-repo';
-import {defaultCategory} from '../../api/repos/category-repo';
+import {defaultCategory} from '../../api/services/category-service';
 
 export type QuizState = {
   progress: TaskProgress;
@@ -53,8 +49,9 @@ const quizSlice = createSlice({
       state.type = action.payload;
     },
     answerQuestion: (state, action: PayloadAction<Answer>) => {
-      state.questions[action.payload.index].given_answer =
-        action.payload.answer;
+      if (state.questions[action.payload.index]) {
+        state.questions[action.payload.index].given_answer = action.payload.answer;
+      }
     },
     resetQuiz: state => {
       state.progress = TaskProgress.IDLE;

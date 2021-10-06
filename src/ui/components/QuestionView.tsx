@@ -20,9 +20,7 @@ type Props = {
  * @param question The question to display.
  */
 export default function QuestionView({index, question}: Props) {
-  const givenAnswer: string = useAppSelector(
-    state => state.quiz.questions[index].given_answer,
-  );
+  const givenAnswer: string = useAppSelector(state => state.quiz.questions[index].given_answer);
   const dispatch = useAppDispatch();
 
   return (
@@ -33,9 +31,7 @@ export default function QuestionView({index, question}: Props) {
         index={index}
         items={question.all_answers}
         selectedValue={givenAnswer}
-        onValueSelect={value =>
-          dispatch(answerQuestion({index: index, answer: value}))
-        }
+        onValueSelect={value => dispatch(answerQuestion({index: index, answer: value}))}
       />
     </Card>
   );

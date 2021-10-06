@@ -13,9 +13,7 @@ const Stack = createStackNavigator();
  */
 export default function RootNavigator() {
   return (
-    <Stack.Navigator
-      initialRouteName="Home"
-      screenOptions={{headerShown: false}}>
+    <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="AboutApp" component={AboutApp} />
       <Stack.Screen name="QuizCreator" component={QuizCreator} />

@@ -19,7 +19,12 @@ const initialState: CategoryState = {
 const categorySlice = createSlice({
   name: 'categories',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    resetCategories: state => {
+      state.progress = TaskProgress.IDLE;
+      state.categories = [];
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchCategories.pending, state => {
       state.progress = TaskProgress.PENDING;
@@ -30,12 +35,13 @@ const categorySlice = createSlice({
       state.categories = payload;
     });
 
-    builder.addCase(fetchCategories.rejected, (state, action) => {
+    builder.addCase(fetchCategories.rejected, state => {
       state.progress = TaskProgress.ERROR;
-      console.log(action.error);
     });
   },
 });
+
+export const {resetCategories} = categorySlice.actions;
 
 const categoryReducer = categorySlice.reducer;
 export default categoryReducer;

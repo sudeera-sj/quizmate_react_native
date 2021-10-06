@@ -49,11 +49,7 @@ function RadioButton({value, checked, onClick}: RadioButtonProps) {
  * @param onValueSelect The event to be triggered when the user selects a particular option.
  * @constructor
  */
-export default function RadioGroup({
-  items,
-  selectedValue,
-  onValueSelect,
-}: RadioGroupProps) {
+export default function RadioGroup({items, selectedValue, onValueSelect}: RadioGroupProps) {
   return (
     <View style={radioGroupStyles.container}>
       {items.map((item, index) => (

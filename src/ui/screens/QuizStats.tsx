@@ -1,9 +1,9 @@
-import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {useAppSelector} from '../../store';
-import {Question} from '../../types/model-types';
-import {VictoryPie, VictoryTheme} from 'victory-native';
-import fonts from '../../styles/fonts';
+import React from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useAppSelector } from "../../store";
+import { Question } from "../../types/model-types";
+import { VictoryPie, VictoryTheme } from "victory-native";
+import fonts from "../../styles/fonts";
 
 /**
  * This screen displays a collection of statistics about the completed quiz.
@@ -34,9 +34,7 @@ export default function QuizStats() {
         </Text>
 
         <Text style={styles.statLabel}>Total duration</Text>
-        <Text style={styles.statText}>
-          {formatDuration(quizState.start, quizState.end)}
-        </Text>
+        <Text style={styles.statText}>{formatDuration(quizState.start, quizState.end)}</Text>
 
         <View style={styles.centeredContainer}>
           <VictoryPie
@@ -59,9 +57,7 @@ export default function QuizStats() {
           />
 
           <Text style={styles.finalScoreLabel}>Your Final Score</Text>
-          <Text style={styles.finalScoreText}>
-            {calculateFinalScore(quizState.questions)}
-          </Text>
+          <Text style={styles.finalScoreText}>{calculateFinalScore(quizState.questions)}</Text>
         </View>
       </View>
     </ScrollView>
@@ -152,9 +148,7 @@ function formatDuration(start: number, end: number) {
  * @param questions The array of questions to iterate through.
  */
 function createChartData(questions: Question[]) {
-  const blankCount = questions.filter(
-    value => value.given_answer === '',
-  ).length;
+  const blankCount = questions.filter(value => value.given_answer === '').length;
   const correctCount = questions.filter(
     value => value.given_answer === value.correct_answer,
   ).length;

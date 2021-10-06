@@ -20,11 +20,7 @@ import fonts from '../../styles/fonts';
 type Props = BottomTabScreenProps<ResultsNavigatorTypes, 'QuizAnswers'>;
 
 const renderAnswer: ListRenderItem<Question> = listEntry => (
-  <AnswerView
-    index={listEntry.index}
-    question={listEntry.item}
-    key={listEntry.index}
-  />
+  <AnswerView index={listEntry.index} question={listEntry.item} key={listEntry.index} />
 );
 
 /**
@@ -45,25 +41,21 @@ export default function QuizAnswers({navigation}: Props) {
       if (e.data.action.type === 'GO_BACK') {
         e.preventDefault();
 
-        Alert.alert(
-          'Exit results ?',
-          'You will be re-routed to the main window',
-          [
-            {
-              text: 'No',
-              style: 'cancel',
-              onPress: () => {},
+        Alert.alert('Exit results ?', 'You will be re-routed to the main window', [
+          {
+            text: 'No',
+            style: 'cancel',
+            onPress: () => {},
+          },
+          {
+            text: 'Yes',
+            style: 'destructive',
+            onPress: () => {
+              dispatch(resetQuiz());
+              navigation.dispatch(e.data.action);
             },
-            {
-              text: 'Yes',
-              style: 'destructive',
-              onPress: () => {
-                dispatch(resetQuiz());
-                navigation.dispatch(e.data.action);
-              },
-            },
-          ],
-        );
+          },
+        ]);
       }
     });
 

@@ -3,7 +3,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import QuizAnswers from '../ui/screens/QuizAnswers';
 import QuizStats from '../ui/screens/QuizStats';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import fonts from '../styles/fonts';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,9 +14,18 @@ export default function ResultsNavigator() {
     <Tab.Navigator
       initialRouteName="QuizAnswers"
       backBehavior="initialRoute"
-      tabBarOptions={{
-        labelStyle: {fontFamily: fonts.medium, paddingBottom: 4},
-        tabStyle: {paddingTop: 8},
+      screenOptions={{
+        tabBarLabelStyle: {
+          fontFamily: 'Rubik-Medium',
+          paddingBottom: 4,
+        },
+        tabBarItemStyle: {
+          paddingTop: 8,
+        },
+        tabBarStyle: {
+          display: 'flex',
+        },
+        headerShown: false,
       }}>
       <Tab.Screen
         name="QuizAnswers"
@@ -25,11 +33,7 @@ export default function ResultsNavigator() {
         options={{
           title: 'Answers',
           tabBarIcon: screenProps => (
-            <Icon
-              name={'receipt'}
-              size={screenProps.size}
-              color={screenProps.color}
-            />
+            <Icon name={'receipt'} size={screenProps.size} color={screenProps.color} />
           ),
         }}
       />
@@ -39,11 +43,7 @@ export default function ResultsNavigator() {
         options={{
           title: 'Statistics',
           tabBarIcon: screenProps => (
-            <Icon
-              name={'chart-arc'}
-              size={screenProps.size}
-              color={screenProps.color}
-            />
+            <Icon name={'chart-arc'} size={screenProps.size} color={screenProps.color} />
           ),
         }}
       />

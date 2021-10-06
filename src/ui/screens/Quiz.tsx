@@ -1,3 +1,5 @@
+import NetInfo from '@react-native-community/netinfo';
+import {StackScreenProps} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
 import {
   ActivityIndicator,
@@ -8,30 +10,20 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useAppDispatch, useAppSelector} from '../../store';
-import {TaskProgress} from '../../types/util-types';
-import {Question} from '../../types/model-types';
-import QuestionView from '../components/QuestionView';
 import {fetchQuiz} from '../../api/repos/quiz-repo';
-import NetInfo from '@react-native-community/netinfo';
-import RoundedButton from '../components/RoundedButton';
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootNavigatorTypes} from '../../types/navigation-types';
+import {useAppDispatch, useAppSelector} from '../../store';
 import {resetQuiz, submitQuiz} from '../../store/slices/quiz-slice';
 import fonts from '../../styles/fonts';
-import {
-  notifyQuizStart,
-  notifyQuizSubmit,
-} from '../../util/notifications/quiz-notifications';
+import {Question} from '../../types/model-types';
+import {RootNavigatorTypes} from '../../types/navigation-types';
+import {TaskProgress} from '../../types/util-types';
+import QuestionView from '../components/QuestionView';
+import RoundedButton from '../components/RoundedButton';
 
 type Props = StackScreenProps<RootNavigatorTypes, 'Quiz'>;
 
 const renderQuestion: ListRenderItem<Question> = listEntry => (
-  <QuestionView
-    index={listEntry.index}
-    question={listEntry.item}
-    key={listEntry.index}
-  />
+  <QuestionView index={listEntry.index} question={listEntry.item} key={listEntry.index} />
 );
 
 /**
@@ -43,24 +35,6 @@ const renderQuestion: ListRenderItem<Question> = listEntry => (
 export default function Quiz({navigation}: Props) {
   const quizState = useAppSelector(state => state.quiz);
   const dispatch = useAppDispatch();
-
-  /**
-   * Creates a push notification signifying the start of a quiz
-   */
-  useEffect(() => {
-    if (quizState.start > 0) {
-      notifyQuizStart(quizState.start);
-    }
-  }, [quizState.start]);
-
-  /**
-   * Creates a push notification signifying the submission of a quiz
-   */
-  useEffect(() => {
-    if (quizState.end > 0) {
-      notifyQuizSubmit(quizState.end);
-    }
-  }, [quizState.end]);
 
   /**
    * Listens to the internet connectivity status changes of the device.
@@ -167,13 +141,8 @@ export default function Quiz({navigation}: Props) {
             <Text style={styles.emptyText}>
               {"turns out, we don't have that many questions with us just yet."}
             </Text>
-            <Text style={styles.emptySubtext}>
-              try lowering the number of questions
-            </Text>
-            <RoundedButton
-              text={'go back'}
-              onclick={() => navigation.goBack()}
-            />
+            <Text style={styles.emptySubtext}>try lowering the number of questions</Text>
+            <RoundedButton text={'go back'} onclick={() => navigation.goBack()} />
           </View>
         );
       }

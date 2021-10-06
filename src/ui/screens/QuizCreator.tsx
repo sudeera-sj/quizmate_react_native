@@ -4,12 +4,7 @@ import {QuestionDifficulty, QuestionType} from '../../types/util-types';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootNavigatorTypes} from '../../types/navigation-types';
 import {useAppDispatch, useAppSelector} from '../../store';
-import {
-  setCategory,
-  setCount,
-  setDifficulty,
-  setType,
-} from '../../store/slices/quiz-slice';
+import {setCategory, setCount, setDifficulty, setType} from '../../store/slices/quiz-slice';
 import {Category} from '../../types/model-types';
 import Slider from '@react-native-community/slider';
 import RoundedButton from '../components/RoundedButton';
@@ -41,22 +36,18 @@ export default function QuizCreator({navigation}: Props) {
   const dispatch = useAppDispatch();
   const quizState = useAppSelector(state => state.quiz);
 
-  const categories: {label: string; value: Category}[] = useAppSelector(
-    state => {
-      return state.categories.categories.map(category => {
-        return {label: category.name, value: category};
-      });
-    },
-  );
+  const categories: {label: string; value: Category}[] = useAppSelector(state => {
+    return state.categories.categories.map(category => {
+      return {label: category.name, value: category};
+    });
+  });
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titleText}>Create new quiz</Text>
 
       <View style={styles.inputFieldContainer}>
-        <Text style={[styles.inputFieldLabel, styles.countLabel]}>
-          Question count
-        </Text>
+        <Text style={[styles.inputFieldLabel, styles.countLabel]}>Question count</Text>
 
         <Slider
           value={quizState.count}
@@ -81,11 +72,7 @@ export default function QuizCreator({navigation}: Props) {
               dispatch(setCategory(categories[itemIndex].value))
             }>
             {categories.map((value, index) => (
-              <Picker.Item
-                key={index}
-                value={value.value.name}
-                label={value.label}
-              />
+              <Picker.Item key={index} value={value.value.name} label={value.label} />
             ))}
           </Picker>
         </View>
@@ -99,11 +86,7 @@ export default function QuizCreator({navigation}: Props) {
             selectedValue={quizState.difficulty}
             onValueChange={itemValue => dispatch(setDifficulty(itemValue))}>
             {difficulties.map((value, index) => (
-              <Picker.Item
-                key={index}
-                value={value.value}
-                label={value.label}
-              />
+              <Picker.Item key={index} value={value.value} label={value.label} />
             ))}
           </Picker>
         </View>
@@ -117,21 +100,14 @@ export default function QuizCreator({navigation}: Props) {
             selectedValue={quizState.type}
             onValueChange={itemValue => dispatch(setType(itemValue))}>
             {types.map((value, index) => (
-              <Picker.Item
-                key={index}
-                value={value.value}
-                label={value.label}
-              />
+              <Picker.Item key={index} value={value.value} label={value.label} />
             ))}
           </Picker>
         </View>
       </View>
 
       <View style={styles.createQuizButton}>
-        <RoundedButton
-          text={'Create Quiz'}
-          onclick={() => navigation.navigate('Quiz')}
-        />
+        <RoundedButton text={'Create Quiz'} onclick={() => navigation.navigate('Quiz')} />
       </View>
     </SafeAreaView>
   );

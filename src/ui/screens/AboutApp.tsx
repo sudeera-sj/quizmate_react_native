@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Image,
-  Linking,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, Linking, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Card from '../components/Card';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundedButton from '../components/RoundedButton';
@@ -19,7 +11,6 @@ const concepts = [
   'State management',
   'Navigation',
   'API access',
-  'Local push notifications',
 ];
 
 const languagesFrameworksAndLibraries: {name: string; url: string}[] = [
@@ -57,28 +48,21 @@ export default function AboutApp() {
         <Text style={styles.titleText}>About application</Text>
 
         <Card style={styles.contentCard}>
-          <Image
-            style={styles.appIcon}
-            source={require('../../assets/icon/icon-large.png')}
-          />
+          <Image style={styles.appIcon} source={require('../../assets/icon/icon-large.png')} />
 
           <Text style={[styles.appName, styles.centeredText]}>QuizMate</Text>
 
           <Text style={[styles.appVersion, styles.centeredText]}>1.0.0</Text>
 
           <Text style={[styles.appDescription, styles.centeredText]}>
-            A simple quiz app demonstrating the use of core concepts and
-            utilities in React Native development
+            A simple quiz app demonstrating the use of core concepts and utilities in React Native
+            development
           </Text>
 
           <View style={styles.linksRow}>
             <Pressable
               android_ripple={{color: 'lightgrey', borderless: false}}
-              onPress={() =>
-                Linking.openURL(
-                  'https://github.com/SudeeraSJ/quizmate_react_native',
-                )
-              }
+              onPress={() => Linking.openURL('https://github.com/SudeeraSJ/quizmate_react_native')}
               style={styles.linkContainer}>
               <Icon name={'github'} color={'black'} style={styles.linkIcon} />
             </Pressable>
@@ -86,36 +70,24 @@ export default function AboutApp() {
         </Card>
 
         <Card style={styles.contentCard}>
-          <Text style={styles.cardTitle}>
-            Development concepts covered in this project
-          </Text>
+          <Text style={styles.cardTitle}>Development concepts covered in this project</Text>
           {concepts.map((value, index) => (
             <View key={index} style={styles.listItemContainer}>
-              <Icon
-                name={'circle'}
-                color={'blue'}
-                style={styles.listItemIcon}
-              />
+              <Icon name={'circle'} color={'blue'} style={styles.listItemIcon} />
               <Text style={styles.listItemText}>{value}</Text>
             </View>
           ))}
         </Card>
 
         <Card style={styles.contentCard}>
-          <Text style={styles.cardTitle}>
-            Languages, Frameworks and libraries used
-          </Text>
+          <Text style={styles.cardTitle}>Languages, Frameworks and libraries used</Text>
           {languagesFrameworksAndLibraries.map((value, index) => (
             <Pressable
               key={index}
               onPress={() => Linking.openURL(value.url)}
               android_ripple={{color: 'lightgrey', borderless: false}}>
               <View style={styles.listItemContainer}>
-                <Icon
-                  name={'circle'}
-                  color={'blue'}
-                  style={styles.listItemIcon}
-                />
+                <Icon name={'circle'} color={'blue'} style={styles.listItemIcon} />
                 <Text style={styles.listItemText}>{value.name}</Text>
               </View>
             </Pressable>
@@ -124,8 +96,7 @@ export default function AboutApp() {
 
         <Card style={styles.contentCard}>
           <Text style={styles.additionalText}>
-            Additionally, ESLint and Prettier was used for Linting and Code
-            Formatting
+            Additionally, ESLint and Prettier was used for Linting and Code Formatting
           </Text>
         </Card>
 
@@ -133,39 +104,27 @@ export default function AboutApp() {
           <Text style={styles.cardTitle}>Credits</Text>
 
           <Text style={styles.creditsTitle}>Application developed by</Text>
-          <Text style={styles.creditsText}>
-            Sudeera Sandaruwan Jayasinghe - Colombo, Sri Lanka
-          </Text>
+          <Text style={styles.creditsText}>Sudeera Sandaruwan Jayasinghe - Colombo, Sri Lanka</Text>
           <View style={styles.actionButton}>
             <RoundedButton
               filled={false}
               text={'View profile'}
-              onclick={() =>
-                Linking.openURL(
-                  'https://www.linkedin.com/in/sudeerasandaruwan/',
-                )
-              }
+              onclick={() => Linking.openURL('https://www.linkedin.com/in/sudeerasandaruwan/')}
             />
           </View>
 
           <Text style={styles.creditsTitle}>Application icon</Text>
-          <Text style={styles.creditsText}>
-            Designed by Freepik from flaticon.com
-          </Text>
+          <Text style={styles.creditsText}>Designed by Freepik from flaticon.com</Text>
           <View style={styles.actionButton}>
             <RoundedButton
               filled={false}
               text={'View profile'}
-              onclick={() =>
-                Linking.openURL('https://www.flaticon.com/authors/freepik')
-              }
+              onclick={() => Linking.openURL('https://www.flaticon.com/authors/freepik')}
             />
           </View>
 
           <Text style={styles.creditsTitle}>Application cover image</Text>
-          <Text style={styles.creditsText}>
-            Designed by dashu83 from freepik.com
-          </Text>
+          <Text style={styles.creditsText}>Designed by dashu83 from freepik.com</Text>
           <View style={styles.actionButton}>
             <RoundedButton
               filled={false}
