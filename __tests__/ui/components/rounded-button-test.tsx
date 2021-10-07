@@ -2,8 +2,8 @@ import React from 'react';
 import {fireEvent, render} from '@testing-library/react-native';
 import RoundedButton from '../../../src/ui/components/RoundedButton';
 
-describe('Rounded Button Component Test', () => {
-  test('Rounded Button Text Prop Test', () => {
+describe('RoundedButton Component Test', () => {
+  test('RoundedButton text prop test', () => {
     const button = render(<RoundedButton text={'Button Text'} onclick={() => {}} />);
 
     const realText = button.queryByText('Button Text');
@@ -13,7 +13,7 @@ describe('Rounded Button Component Test', () => {
     expect(missingText).toBeFalsy();
   });
 
-  test('Rounded Button Filled Prop Test', () => {
+  test('RoundedButton filled prop test', () => {
     const buttonOne = render(<RoundedButton text={'Filled'} onclick={() => {}} />);
     const buttonOneText = buttonOne.getByText('Filled');
 
@@ -25,7 +25,7 @@ describe('Rounded Button Component Test', () => {
     expect(buttonTwoText.props.style).toHaveProperty('color', 'blue');
   });
 
-  test('Rounded Button OnClick Prop Test', () => {
+  test('RoundedButton onClick prop test', () => {
     const onClick = jest.fn();
 
     const view = render(<RoundedButton text={'Button Text'} onclick={onClick} />);

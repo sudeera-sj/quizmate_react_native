@@ -4,7 +4,7 @@ import {render} from '@testing-library/react-native';
 import Card from '../../../src/ui/components/Card';
 
 describe('Card Component Test', () => {
-  test('Card Style Prop Test', () => {
+  test('Card style prop test', () => {
     const cardOne = render(
       <Card>
         <Text>Card For Testing</Text>
@@ -22,7 +22,7 @@ describe('Card Component Test', () => {
     expect(cardTwo.container).toHaveStyle({padding: 8});
   });
 
-  test('Card Children Prop Test', () => {
+  test('Card children prop test', () => {
     const card = render(
       <Card>
         <Text testID={'title'}>Card Title</Text>
