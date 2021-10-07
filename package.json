@@ -55,7 +55,7 @@
   "jest": {
     "preset": "react-native",
     "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
+      "<rootDir>/jest/native-setup.js"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native(-.*)?|@react-native(-community)?|victory-.*)/)"

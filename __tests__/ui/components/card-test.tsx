@@ -11,7 +11,7 @@ describe('Card Component Test', () => {
       </Card>,
     );
 
-    expect(cardOne.container.props.style).toBeFalsy();
+    expect(cardOne.container).not.toHaveStyle({padding: 8});
 
     const cardTwo = render(
       <Card style={{padding: 8}}>
@@ -19,7 +19,7 @@ describe('Card Component Test', () => {
       </Card>,
     );
 
-    expect(cardTwo.container.props.style).toBeTruthy();
+    expect(cardTwo.container).toHaveStyle({padding: 8});
   });
 
   test('Card Children Test', () => {
@@ -34,7 +34,7 @@ describe('Card Component Test', () => {
     const subtitle = card.getByTestId('subtitle');
 
     expect(card.container.children.length).toBe(1);
-    expect(title.children).toStrictEqual(['Card Title']);
-    expect(subtitle.children).toStrictEqual(['Card Subtitle']);
+    expect(title).toHaveTextContent('Card Title');
+    expect(subtitle).toHaveTextContent('Card Subtitle');
   });
 });
