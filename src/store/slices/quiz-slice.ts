@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {QuestionDifficulty, QuestionType, TaskProgress} from '../../types/util-types';
 import {Answer, Category, Question} from '../../types/model-types';
-import {fetchQuiz} from '../../api/repos/quiz-repo';
+import quizRepo from '../../api/repos/quiz-repo';
 import {defaultCategory} from '../../api/services/category-service';
 
 export type QuizState = {
@@ -68,20 +68,20 @@ const quizSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(fetchQuiz.pending, state => {
+    builder.addCase(quizRepo.fetchQuiz.pending, state => {
       state.progress = TaskProgress.PENDING;
       state.start = 0;
       state.end = 0;
     });
 
-    builder.addCase(fetchQuiz.fulfilled, (state, action) => {
+    builder.addCase(quizRepo.fetchQuiz.fulfilled, (state, action) => {
       state.progress = TaskProgress.SUCCESS;
       state.questions = action.payload;
       state.start = new Date().getTime();
       state.end = 0;
     });
 
-    builder.addCase(fetchQuiz.rejected, state => {
+    builder.addCase(quizRepo.fetchQuiz.rejected, state => {
       state.progress = TaskProgress.ERROR;
       state.start = 0;
       state.end = 0;

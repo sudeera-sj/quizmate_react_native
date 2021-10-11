@@ -3,6 +3,7 @@ import {QuizState} from '../../store/slices/quiz-slice';
 import {Question} from '../../types/model-types';
 import {QuestionDifficulty, QuestionType} from '../../types/util-types';
 import apiController from '../index';
+import {AxiosResponse} from 'axios';
 
 type TriviaEntry = {
   category: string;
@@ -16,49 +17,52 @@ type Trivia = {
   results: TriviaEntry[];
 };
 
-export const loadQuiz = async (quizState: QuizState) => {
-  let url = `api.php?amount=${quizState.count}`;
+class QuizService {
+  async loadQuiz(quizState: QuizState) {
+    let url = `api.php?amount=${quizState.count}`;
 
-  const category = quizState.category.id;
-  if (category > 0) {
-    url += `&category=${category}`;
-  }
+    const category = quizState.category.id;
+    if (category > 0) {
+      url += `&category=${category}`;
+    }
 
-  const difficulty = quizState.difficulty;
-  if (difficulty !== QuestionDifficulty.ANY) {
-    url += `&difficulty=${difficulty.valueOf()}`;
-  }
+    const difficulty = quizState.difficulty;
+    if (difficulty !== QuestionDifficulty.ANY) {
+      url += `&difficulty=${difficulty.valueOf()}`;
+    }
 
-  const type = quizState.type;
-  if (type !== QuestionType.ANY) {
-    url += `&type=${type.valueOf()}`;
-  }
+    const type = quizState.type;
+    if (type !== QuestionType.ANY) {
+      url += `&type=${type.valueOf()}`;
+    }
 
-  return await apiController
-    .get(url)
-    .then(value => value.data as Trivia)
-    .then(value => value.results)
-    .then(value => {
-      return value.map(triviaEntry => {
-        triviaEntry.incorrect_answers.push(triviaEntry.correct_answer);
+    const response: AxiosResponse<Trivia> = await apiController.get(url);
+    const triviaEntries = response.data.results;
 
-        /**
-         * Shuffles the set of possible answers
-         */
-        const answers: string[] = triviaEntry.incorrect_answers
-          .map(a => ({sort: Math.random(), value: a}))
-          .sort((a, b) => a.sort - b.sort)
-          .map(a => a.value)
-          .map(text => decode(text));
+    return triviaEntries.map(triviaEntry => {
+      triviaEntry.incorrect_answers.push(triviaEntry.correct_answer);
 
-        const question: Question = {
-          text: decode(triviaEntry.question),
-          all_answers: answers,
-          correct_answer: decode(triviaEntry.correct_answer),
-          given_answer: '',
-        };
+      /**
+       * Shuffles the set of possible answers
+       */
+      const answers: string[] = triviaEntry.incorrect_answers
+        .map(a => ({sort: Math.random(), value: a}))
+        .sort((a, b) => a.sort - b.sort)
+        .map(a => a.value)
+        .map(text => decode(text));
 
-        return question;
-      });
+      const question: Question = {
+        text: decode(triviaEntry.question),
+        all_answers: answers,
+        correct_answer: decode(triviaEntry.correct_answer),
+        given_answer: '',
+      };
+
+      return question;
     });
-};
+  }
+}
+
+const quizService = new QuizService();
+
+export default quizService;

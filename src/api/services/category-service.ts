@@ -11,26 +11,27 @@ export const defaultCategory: Category = {
   name: 'Any Category',
 };
 
-export const loadCategories = async () => {
-  const categories: Category[] = await apiController
-    .get('api_category.php')
-    .then((value: AxiosResponse<string>) => value.data as unknown as TriviaCategories)
-    .then(value => value.trivia_categories)
-    .then(value => {
-      value.push(defaultCategory);
+class CategoryService {
+  async loadCategories() {
+    const response: AxiosResponse<TriviaCategories> = await apiController.get('api_category.php');
+    const categories = response.data.trivia_categories;
 
-      value.sort((a, b) => {
-        if (a.id < b.id) {
-          return -1;
-        }
-        if (a.id > b.id) {
-          return 1;
-        }
-        return 0;
-      });
+    categories.push(defaultCategory);
 
-      return value;
+    categories.sort((a, b) => {
+      if (a.id < b.id) {
+        return -1;
+      }
+      if (a.id > b.id) {
+        return 1;
+      }
+      return 0;
     });
 
-  return categories || [];
-};
+    return categories || [];
+  }
+}
+
+const categoryService: CategoryService = new CategoryService();
+
+export default categoryService;

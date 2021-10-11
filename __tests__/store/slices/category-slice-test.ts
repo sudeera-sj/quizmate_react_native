@@ -2,7 +2,7 @@ import apiController from '../../../src/api';
 import store from '../../../src/store';
 import {TaskProgress} from '../../../src/types/util-types';
 import {CategoryState, resetCategories} from '../../../src/store/slices/category-slice';
-import {fetchCategories} from '../../../src/api/repos/category-repo';
+import categoryRepo from '../../../src/api/repos/category-repo';
 
 jest.mock('../../../src/api');
 
@@ -37,7 +37,7 @@ describe('Category Slice Test', () => {
     expect(initialState.progress).toBe(TaskProgress.IDLE);
     expect(initialState.categories.length).toBe(0);
 
-    await store.dispatch(fetchCategories());
+    await store.dispatch(categoryRepo.fetchCategories());
 
     const updatedState: CategoryState = store.getState().categories;
     expect(updatedState.progress).toBe(TaskProgress.SUCCESS);
@@ -52,7 +52,7 @@ describe('Category Slice Test', () => {
     expect(initialState.progress).toBe(TaskProgress.IDLE);
     expect(initialState.categories.length).toBe(0);
 
-    await store.dispatch(fetchCategories());
+    await store.dispatch(categoryRepo.fetchCategories());
 
     const updatedState: CategoryState = store.getState().categories;
     expect(updatedState.progress).toBe(TaskProgress.ERROR);

@@ -10,7 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {fetchQuiz} from '../../api/repos/quiz-repo';
+import quizRepo from '../../api/repos/quiz-repo';
 import {useAppDispatch, useAppSelector} from '../../store';
 import {resetQuiz, submitQuiz} from '../../store/slices/quiz-slice';
 import fonts from '../../styles/fonts';
@@ -43,7 +43,7 @@ export default function Quiz({navigation}: Props) {
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
       if (state.isInternetReachable) {
-        dispatch(fetchQuiz());
+        dispatch(quizRepo.fetchQuiz());
       }
     });
 
@@ -154,7 +154,7 @@ export default function Quiz({navigation}: Props) {
             <RoundedButton
               text={'try again'}
               onclick={() => {
-                dispatch(fetchQuiz());
+                dispatch(quizRepo.fetchQuiz());
               }}
             />
           </View>

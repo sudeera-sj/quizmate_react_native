@@ -1,5 +1,5 @@
 import apiController from '../../../src/api';
-import {loadCategories} from '../../../src/api/services/category-service';
+import categoryService from '../../../src/api/services/category-service';
 
 jest.mock('../../../src/api');
 
@@ -24,7 +24,7 @@ test('Category Service Test', async () => {
   const mockedApiController = apiController as jest.Mocked<typeof apiController>;
   mockedApiController.get.mockResolvedValueOnce({data: mockResponse});
 
-  const categories = await loadCategories();
+  const categories = await categoryService.loadCategories();
 
   expect(mockedApiController.get).toHaveBeenCalledWith('api_category.php');
   expect(categories.length).toBe(4);

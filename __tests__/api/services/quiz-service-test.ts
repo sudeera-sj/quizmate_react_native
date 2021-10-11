@@ -2,8 +2,8 @@ import apiController from '../../../src/api';
 import {QuizState} from '../../../src/store/slices/quiz-slice';
 import {QuestionDifficulty, QuestionType, TaskProgress} from '../../../src/types/util-types';
 import {defaultCategory} from '../../../src/api/services/category-service';
-import {loadQuiz} from '../../../src/api/services/quiz-service';
 import {Category, Question} from '../../../src/types/model-types';
+import quizService from '../../../src/api/services/quiz-service';
 
 jest.mock('../../../src/api');
 
@@ -38,7 +38,7 @@ describe('Quiz Service Test', () => {
 
     mockedApiController.get.mockResolvedValueOnce({data: response});
 
-    const questions: Question[] = await loadQuiz(state);
+    const questions: Question[] = await quizService.loadQuiz(state);
 
     expect(mockedApiController.get).toHaveBeenCalledWith(`api.php?amount=${state.count}`);
     expect(questions.length).toBe(1);
@@ -72,7 +72,7 @@ describe('Quiz Service Test', () => {
 
     mockedApiController.get.mockResolvedValueOnce({data: response});
 
-    const questions: Question[] = await loadQuiz(state);
+    const questions: Question[] = await quizService.loadQuiz(state);
 
     expect(mockedApiController.get).toHaveBeenCalledWith(
       `api.php?amount=${state.count}&category=${category.id}`,
@@ -102,7 +102,7 @@ describe('Quiz Service Test', () => {
 
     mockedApiController.get.mockResolvedValueOnce({data: response});
 
-    const questions: Question[] = await loadQuiz(state);
+    const questions: Question[] = await quizService.loadQuiz(state);
 
     expect(mockedApiController.get).toHaveBeenCalledWith(
       `api.php?amount=${state.count}&difficulty=${difficulty.valueOf()}`,
@@ -132,7 +132,7 @@ describe('Quiz Service Test', () => {
 
     mockedApiController.get.mockResolvedValueOnce({data: response});
 
-    const questions: Question[] = await loadQuiz(state);
+    const questions: Question[] = await quizService.loadQuiz(state);
 
     expect(mockedApiController.get).toHaveBeenCalledWith(
       `api.php?amount=${state.count}&type=${type.valueOf()}`,

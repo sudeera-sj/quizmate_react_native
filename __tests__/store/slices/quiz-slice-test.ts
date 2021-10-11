@@ -11,7 +11,7 @@ import {
 import {QuestionDifficulty, QuestionType, TaskProgress} from '../../../src/types/util-types';
 import {Category} from '../../../src/types/model-types';
 import apiController from '../../../src/api';
-import {fetchQuiz} from '../../../src/api/repos/quiz-repo';
+import quizRepo from '../../../src/api/repos/quiz-repo';
 
 jest.mock('../../../src/api');
 
@@ -99,7 +99,7 @@ describe('Quiz Slice Test', () => {
     expect(initialState.start).toBe(0);
     expect(initialState.end).toBe(0);
 
-    await store.dispatch(fetchQuiz());
+    await store.dispatch(quizRepo.fetchQuiz());
 
     const updatedState: QuizState = store.getState().quiz;
     expect(updatedState.progress).toBe(TaskProgress.SUCCESS);
@@ -117,7 +117,7 @@ describe('Quiz Slice Test', () => {
     expect(initialState.start).toBe(0);
     expect(initialState.end).toBe(0);
 
-    await store.dispatch(fetchQuiz());
+    await store.dispatch(quizRepo.fetchQuiz());
 
     const updatedState: QuizState = store.getState().quiz;
     expect(updatedState.progress).toBe(TaskProgress.ERROR);

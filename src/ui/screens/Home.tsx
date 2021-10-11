@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import {useAppDispatch, useAppSelector} from '../../store';
-import {fetchCategories} from '../../api/repos/category-repo';
+import categoryRepo from '../../api/repos/category-repo';
 import {TaskProgress} from '../../types/util-types';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootNavigatorTypes} from '../../types/navigation-types';
@@ -38,7 +38,7 @@ export default function Home({navigation}: Props) {
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
       if (state.isInternetReachable) {
-        dispatch(fetchCategories());
+        dispatch(categoryRepo.fetchCategories());
       }
     });
 
